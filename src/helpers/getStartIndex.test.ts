@@ -1,3 +1,4 @@
+import { TABLE_HEIGHT } from "../constants";
 import { Action } from "../types";
 import getStartIndex from "./getStartIndex";
 
@@ -11,7 +12,7 @@ describe("getStartIndex", () => {
   it("should return -1 if no valid place commands", () => {
     const actions: Action[] = [
       { type: "PLACE", payload: { x: -1, y: 0, direction: "EAST" } },
-      { type: "PLACE", payload: { x: 0, y: 5, direction: "EAST" } },
+      { type: "PLACE", payload: { x: 0, y: TABLE_HEIGHT, direction: "EAST" } },
     ];
 
     expect(getStartIndex(actions)).toBe(-1);

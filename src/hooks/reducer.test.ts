@@ -1,3 +1,4 @@
+import { TABLE_HEIGHT, TABLE_WIDTH } from "../constants";
 import { Action } from "../types";
 import reducer, { ReducerState } from "./reducer";
 
@@ -7,7 +8,7 @@ describe("robot state reducer", () => {
       const prevState = { robot: null, report: null };
       const action: Action = {
         type: "PLACE",
-        payload: { x: 5, y: 1, direction: "EAST" },
+        payload: { x: TABLE_WIDTH, y: 0, direction: "EAST" },
       };
 
       expect(reducer(prevState, action)).toEqual(prevState);
@@ -15,7 +16,7 @@ describe("robot state reducer", () => {
 
     it("should not move the robot", () => {
       const prevState: ReducerState = {
-        robot: { x: 0, y: 1, direction: "WEST" },
+        robot: { x: 0, y: 0, direction: "WEST" },
         report: null,
       };
 
@@ -25,22 +26,28 @@ describe("robot state reducer", () => {
     });
   });
 
+  let x: number, y: number;
+  beforeEach(() => {
+    x = Math.floor(Math.random() * TABLE_WIDTH);
+    y = Math.floor(Math.random() * TABLE_HEIGHT);
+  });
+
   it("should place the robot", () => {
     const prevState = { robot: null, report: null };
     const action: Action = {
       type: "PLACE",
-      payload: { x: 0, y: 1, direction: "EAST" },
+      payload: { x, y, direction: "EAST" },
     };
 
     expect(reducer(prevState, action)).toEqual({
-      robot: { x: 0, y: 1, direction: "EAST" },
+      robot: { x, y, direction: "EAST" },
       report: null,
     });
   });
 
   it("should report the robot state", () => {
     const prevState: ReducerState = {
-      robot: { x: 0, y: 1, direction: "EAST" },
+      robot: { x, y, direction: "EAST" },
       report: null,
     };
     const action: Action = {
@@ -49,15 +56,15 @@ describe("robot state reducer", () => {
     };
 
     expect(reducer(prevState, action)).toEqual({
-      robot: { x: 0, y: 1, direction: "EAST" },
-      report: { x: 0, y: 1, direction: "EAST" },
+      robot: { x, y, direction: "EAST" },
+      report: { x, y, direction: "EAST" },
     });
   });
 
   it("should move the robot", () => {
     const prevState: ReducerState = {
-      robot: { x: 0, y: 1, direction: "NORTH" },
-      report: { x: 0, y: 1, direction: "NORTH" },
+      robot: { x: 0, y: 0, direction: "NORTH" },
+      report: { x: 0, y: 0, direction: "NORTH" },
     };
     const action: Action = {
       type: "MOVE",
@@ -67,7 +74,7 @@ describe("robot state reducer", () => {
     const currentState = reducer(prevState, action);
 
     expect(currentState).toEqual({
-      robot: { x: 0, y: 2, direction: "NORTH" },
+      robot: { x: 0, y: 1, direction: "NORTH" },
       report: null,
     });
 
@@ -79,14 +86,14 @@ describe("robot state reducer", () => {
     const nextState = reducer(currentState, nextAction);
 
     expect(reducer(nextState, { type: "MOVE", payload: null })).toEqual({
-      robot: { x: 1, y: 2, direction: "EAST" },
+      robot: { x: 1, y: 1, direction: "EAST" },
       report: null,
     });
   });
 
   it("should face the robot left", () => {
     const prevState: ReducerState = {
-      robot: { x: 0, y: 1, direction: "EAST" },
+      robot: { x, y, direction: "EAST" },
       report: null,
     };
     const action: Action = {
@@ -95,14 +102,14 @@ describe("robot state reducer", () => {
     };
 
     expect(reducer(prevState, action)).toEqual({
-      robot: { x: 0, y: 1, direction: "WEST" },
+      robot: { x, y, direction: "WEST" },
       report: null,
     });
   });
 
   it("should face the robot right", () => {
     const prevState: ReducerState = {
-      robot: { x: 0, y: 1, direction: "NORTH" },
+      robot: { x, y, direction: "NORTH" },
       report: null,
     };
     const action: Action = {
@@ -111,7 +118,7 @@ describe("robot state reducer", () => {
     };
 
     expect(reducer(prevState, action)).toEqual({
-      robot: { x: 0, y: 1, direction: "EAST" },
+      robot: { x, y, direction: "EAST" },
       report: null,
     });
   });
