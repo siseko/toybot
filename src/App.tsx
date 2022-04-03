@@ -3,12 +3,23 @@ import getStartIndex from "./helpers/getStartIndex";
 import useRobotState from "./hooks/useRobotState";
 import { Table } from "./Table";
 import { Action } from "./types";
+import styled from "styled-components";
+import { Instructions } from "./Instructions";
+import printState from "./helpers/printState";
+
+const Layout = styled.div(() => ({
+  display: "flex",
+  gap: 50,
+}));
 
 const actions: Action[] = [
-  { type: "PLACE", payload: { x: 0, y: 0, direction: "EAST" } },
+  { type: "PLACE", payload: { x: 0, y: 0, direction: "NORTH" } },
   { type: "MOVE", payload: null },
   { type: "REPORT", payload: null },
   { type: "MOVE", payload: null },
+  { type: "LEFT", payload: null },
+  { type: "MOVE", payload: null },
+  { type: "REPORT", payload: null },
 ];
 
 function App() {
@@ -28,15 +39,16 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Layout>
       <div>
-        press <strong>Enter &crarr;</strong> to play the next instruction
+        <div>
+          press <strong>Enter &crarr;</strong> to play the next instruction
+        </div>
+        <Table robot={robot} />
+        {report !== null ? <p>{printState(robot)}</p> : null}
       </div>
-      <Table robot={robot} />
-      {report !== null ? (
-        <p>{`${robot?.x}, ${robot?.y}, ${robot?.direction}`}</p>
-      ) : null}
-    </>
+      <Instructions instructions={actions} currentIndex={actionIndex} />
+    </Layout>
   );
 }
 
