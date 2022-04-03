@@ -1,7 +1,8 @@
 import React from "react";
+import { Table } from "./Table";
 
 function App() {
-  return <div>App</div>;
+  return <Table robot={{ x: 0, y: 0, direction: "EAST" }} />;
 }
 
 export default App;
