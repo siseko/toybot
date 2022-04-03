@@ -11,6 +11,7 @@ const useRobotState = ({ actions, actionIndex }: Props) => {
   const [state, dispatch] = useReducer(reducer, { robot: null, report: null });
 
   useEffect(() => {
+    if (!actions.length || actionIndex < 0) return;
     dispatch(actions[actionIndex]);
   }, [actions, actionIndex]);
 
