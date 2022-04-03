@@ -92,4 +92,31 @@ describe("robot state reducer", () => {
       report: null,
     });
   });
+
+  it("shouldn't change state if robot not on table and not a place command", () => {
+    const prevState: ReducerState = {
+      robot: null,
+      report: null,
+    };
+
+    expect(reducer(prevState, { type: "RIGHT", payload: null })).toEqual({
+      robot: null,
+      report: null,
+    });
+
+    expect(reducer(prevState, { type: "RIGHT", payload: null })).toEqual({
+      robot: null,
+      report: null,
+    });
+
+    expect(reducer(prevState, { type: "REPORT", payload: null })).toEqual({
+      robot: null,
+      report: null,
+    });
+
+    expect(reducer(prevState, { type: "MOVE", payload: null })).toEqual({
+      robot: null,
+      report: null,
+    });
+  });
 });
