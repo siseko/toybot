@@ -6,7 +6,7 @@ export interface ReducerState {
   report: RobotState | null;
 }
 
-const moveMap: { [key in Direction]: [number, number] } = {
+const coordinateOffset: { [key in Direction]: [number, number] } = {
   NORTH: [0, 1],
   SOUTH: [0, -1],
   EAST: [1, 0],
@@ -14,7 +14,7 @@ const moveMap: { [key in Direction]: [number, number] } = {
 };
 
 const move = ({ x, y, direction }: RobotState) => {
-  const [xOffset, yOffset] = moveMap[direction];
+  const [xOffset, yOffset] = coordinateOffset[direction];
   return {
     x: x + xOffset,
     y: y + yOffset,

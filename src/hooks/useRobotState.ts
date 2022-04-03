@@ -12,6 +12,7 @@ const useRobotState = ({ actions, actionIndex }: Props) => {
 
   useEffect(() => {
     if (!actions.length || actionIndex < 0) return;
+
     dispatch(actions[actionIndex]);
   }, [actions, actionIndex]);
 
