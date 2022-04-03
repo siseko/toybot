@@ -2,6 +2,29 @@ import { Action } from "../types";
 import reducer, { ReducerState } from "./reducer";
 
 describe("robot state reducer", () => {
+  describe("test out of table bounds", () => {
+    it("should not place the robot", () => {
+      const prevState = { robot: null, report: null };
+      const action: Action = {
+        type: "PLACE",
+        payload: { x: 5, y: 1, direction: "EAST" },
+      };
+
+      expect(reducer(prevState, action)).toEqual(prevState);
+    });
+
+    it("should not move the robot", () => {
+      const prevState: ReducerState = {
+        robot: { x: 0, y: 1, direction: "WEST" },
+        report: null,
+      };
+
+      expect(reducer(prevState, { type: "MOVE", payload: null })).toEqual(
+        prevState
+      );
+    });
+  });
+
   it("should place the robot", () => {
     const prevState = { robot: null, report: null };
     const action: Action = {

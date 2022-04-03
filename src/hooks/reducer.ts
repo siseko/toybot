@@ -1,3 +1,4 @@
+import isWithinBounds from "../helpers/isWithinBounds";
 import { Action, Direction, RobotState } from "../types";
 
 export interface ReducerState {
@@ -21,37 +22,45 @@ const move = ({ x, y, direction }: RobotState) => {
   };
 };
 
-const reducer = (state: ReducerState, action: Action): ReducerState => {
+const reducer = (state: ReducerState, action: Action) => {
+  let nextState: ReducerState;
   switch (action.type) {
     case "PLACE":
-      return { ...state, robot: action.payload, report: null };
+      nextState = { ...state, robot: action.payload, report: null };
+      break;
     case "REPORT":
-      return { ...state, report: state.robot };
+      nextState = { ...state, report: state.robot };
+      break;
     case "RIGHT":
-      return {
+      nextState = {
         ...state,
         robot: state.robot
           ? { ...state.robot, direction: "EAST" }
           : state.robot,
         report: null,
       };
+      break;
     case "LEFT":
-      return {
+      nextState = {
         ...state,
         robot: state.robot
           ? { ...state.robot, direction: "WEST" }
           : state.robot,
         report: null,
       };
+      break;
     case "MOVE":
-      return {
+      nextState = {
         ...state,
         robot: state.robot ? move(state.robot) : state.robot,
         report: null,
       };
-    default:
-      return state;
+      break;
   }
+
+  return nextState.robot !== null && isWithinBounds(nextState.robot)
+    ? nextState
+    : state;
 };
 
 export default reducer;
