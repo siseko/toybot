@@ -5,3 +5,8 @@ export interface RobotState {
   y: number;
   direction: Direction;
 }
+
+export interface Action {
+  type: "PLACE" | "REPORT" | "MOVE" | "RIGHT" | "LEFT";
+  payload: RobotState | null;
+}
